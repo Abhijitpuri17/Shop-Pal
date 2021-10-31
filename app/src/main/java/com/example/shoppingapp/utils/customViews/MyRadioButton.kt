@@ -1,4 +1,4 @@
-package com.example.shoppingapp.utils
+package com.example.shoppingapp.utils.customViews
 
 import android.content.Context
 import android.graphics.Typeface
@@ -12,9 +12,8 @@ class MyRadioButton(context : Context, attrs : AttributeSet): AppCompatRadioButt
     }
 
     private fun applyFont() {
-
-        val bold_type_face = Typeface.createFromAsset(context.assets, "Montserrat-Bold.ttf")
-        typeface = bold_type_face
+        val boldTypeFace = Typeface.createFromAsset(context.assets, "Montserrat-Bold.ttf")
+        typeface = boldTypeFace
     }
 
 

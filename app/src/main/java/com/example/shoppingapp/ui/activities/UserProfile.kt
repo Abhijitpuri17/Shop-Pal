@@ -1,13 +1,11 @@
-package com.example.shoppingapp.activities
+package com.example.shoppingapp.ui.activities
 
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.webkit.MimeTypeMap
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.shoppingapp.R
@@ -15,11 +13,9 @@ import com.example.shoppingapp.models.User
 import com.example.shoppingapp.utils.Constants
 import com.example.shoppingapp.utils.FirestoreClass
 import com.example.shoppingapp.utils.GlideLoader
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import java.lang.Exception
-import java.util.jar.Manifest
 
 class UserProfile : BaseActivity()
 {
@@ -37,6 +33,7 @@ class UserProfile : BaseActivity()
             mUserDetails = intent.getParcelableExtra(Constants.EXTRA_USER_DETAILS)!!
         }
 
+        // set first , last name and email previously added and make these editText disabled
         et_first_name.setText(mUserDetails.firstName)
         et_last_name.setText(mUserDetails.lastName)
         et_email.setText(mUserDetails.email)
@@ -44,12 +41,13 @@ class UserProfile : BaseActivity()
         et_last_name.isEnabled = false
         et_email.isEnabled = false
 
+        // when user clicks on imageView
         iv_user_image.setOnClickListener {
             onUserImageClick()
         }
 
-
-        btn_submit_user_info.setOnClickListener {
+        // when user clicks on save
+        btn_save_user_info.setOnClickListener {
             saveUserInfo()
         }
 
@@ -57,13 +55,15 @@ class UserProfile : BaseActivity()
 
     private fun onUserImageClick()
     {
+        // check for storage permission
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
                 {
-                     //showErrorSnackbar("Storage permission is already granted", false)
+                     //showErrorSnackBar("Storage permission is already granted", false)
                     showImageChooser()
                 }
         else
+        // if app doesn't have storage permission, ask for the permission
         {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
                 Constants.READ_STORAGE_PERMISSION_CODE)
@@ -73,11 +73,13 @@ class UserProfile : BaseActivity()
     private fun saveUserInfo()
     {
         if (validateDetails()) {
-            showErrorSnackbar("Info saved successfully", false)
+
+            //showErrorSnackBar("Info saved successfully", false)
 
             val mobileNumber = et_mobile_number.text.toString()
             val gender = if (radio_btn_male.isChecked) Constants.MALE else Constants.FEMALE
 
+            // make a hashmap to modify info saved in users collection of firebase
             val userHashMap = HashMap<String, Any>()
 
             userHashMap[Constants.MOBILE] = mobileNumber.toLong()
@@ -95,7 +97,6 @@ class UserProfile : BaseActivity()
 
     private fun saveUserImageInFirebaseStorage()
     {
-
         showProgressDialog("Please wait..")
         val imageExtension =   getFileExtension(this, userImageUri) //MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(userImageUri))
 
@@ -122,7 +123,7 @@ class UserProfile : BaseActivity()
     private fun validateDetails() : Boolean
     {
         if (TextUtils.isEmpty(et_mobile_number.text.toString())) {
-            showErrorSnackbar("Please Enter your Mobile Number", true)
+            showErrorSnackBar("Please Enter your Mobile Number", true)
             return false
         }
         return true
@@ -141,11 +142,11 @@ class UserProfile : BaseActivity()
         if (requestCode == Constants.READ_STORAGE_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
-                showErrorSnackbar("Storage permission is granted", false)
+                showErrorSnackBar("Storage permission is granted", false)
                 showImageChooser()
             }
             else {
-                showErrorSnackbar("Storage permission denied", true)
+                showErrorSnackBar("Storage permission denied", true)
             }
         }
     }
@@ -163,7 +164,7 @@ class UserProfile : BaseActivity()
                         saveUserImageInFirebaseStorage()
                         GlideLoader(this).loadUserPicture(selectedImageFileUri, iv_user_image)
                     } catch (e : Exception) {
-                        showErrorSnackbar(e.localizedMessage!!.toString(), true)
+                        showErrorSnackBar(e.localizedMessage!!.toString(), true)
                     }
                 }
             }

@@ -1,13 +1,9 @@
-package com.example.shoppingapp.activities
+package com.example.shoppingapp.ui.activities
 
 import android.content.Intent
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.WindowInsets
-import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import com.example.shoppingapp.R
 import com.example.shoppingapp.utils.Constants
@@ -29,12 +25,12 @@ class SplashActivity : BaseActivity()
         /**
          * Add top or bottom animations to views
          */
-        val top_anim = AnimationUtils.loadAnimation(this, R.anim.top_animation)
-        val bottom_anim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
+        val topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation)
+        val bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
 
-        tv_app_name.animation = bottom_anim
-        tv_creator_name.animation = bottom_anim
-        iv_app_icon.animation = top_anim
+        tv_app_name.animation = bottomAnim
+        tv_creator_name.animation = bottomAnim
+        iv_app_icon.animation = topAnim
 
         /**
          * Move to main activity after splash time

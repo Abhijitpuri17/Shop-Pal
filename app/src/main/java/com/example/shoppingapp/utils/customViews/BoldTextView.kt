@@ -1,4 +1,4 @@
-package com.example.shoppingapp.utils
+package com.example.shoppingapp.utils.customViews
 
 import android.content.Context
 import android.graphics.Typeface
@@ -8,13 +8,13 @@ import androidx.appcompat.widget.AppCompatTextView
 class BoldTextView(context : Context, attributeSet: AttributeSet) : AppCompatTextView(context, attributeSet) {
 
     init {
-         apply_font()
+         applyFont()
     }
 
-    private fun apply_font()
+    private fun applyFont()
     {
-        val bold_type_face = Typeface.createFromAsset(context.assets, "Montserrat-Bold.ttf")
-        typeface = bold_type_face
+        val boldTypeFace = Typeface.createFromAsset(context.assets, "Montserrat-Bold.ttf")
+        typeface = boldTypeFace
     }
 
 }

@@ -1,11 +1,8 @@
-package com.example.shoppingapp.activities
+package com.example.shoppingapp.ui.activities
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.WindowInsets
-import android.view.WindowManager
 import com.example.shoppingapp.R
 import com.example.shoppingapp.models.User
 import com.example.shoppingapp.utils.Constants
@@ -53,16 +50,16 @@ class LogInActivity : BaseActivity()
     /**
      * Checking if user entered email and password or not
      */
-    private fun validate_login_details() : Boolean
+    private fun validateLoginDetails() : Boolean
     {
         return when {
             TextUtils.isEmpty(et_email.text.toString().trim{it <= ' '}) -> {
-                showErrorSnackbar("Please enter your email address", true)
+                showErrorSnackBar("Please enter your email address", true)
                 false
             }
 
             TextUtils.isEmpty(et_password.text.toString().trim{it <= ' '}) -> {
-                showErrorSnackbar("Please enter your password to continue", true)
+                showErrorSnackBar("Please enter your password to continue", true)
                 false
             }
 
@@ -75,7 +72,7 @@ class LogInActivity : BaseActivity()
         /**
          * Try to log in only if user entered email and password
          */
-        if (validate_login_details())
+        if (validateLoginDetails())
         {
             /**
              * while logging in using firebase, show progressbar
@@ -99,14 +96,14 @@ class LogInActivity : BaseActivity()
 
                     // if email is verified go to main activity
                     if (user!!.isEmailVerified) {
-                        showErrorSnackbar("Successfully logged in", false)
+                        showErrorSnackBar("Successfully logged in", false)
                         FirestoreClass().getUserDetails(this)
                     }
 
                     // if user didn't verify email show error on screen
                     else {
                         hideProgressDialog()
-                        showErrorSnackbar(
+                        showErrorSnackBar(
                             "Please verify your email id by visiting email sent to your id",
                             true
                         )
@@ -120,11 +117,24 @@ class LogInActivity : BaseActivity()
                  */
                 else {
                     hideProgressDialog()
-                    showErrorSnackbar(it.exception!!.message.toString(), true)
+                    showErrorSnackBar(it.exception!!.message.toString(), true)
                 }
             }
 
 
+        }
+    }
+
+
+    /**
+     * If user is already logged in send him to main activity
+     */
+    override fun onStart() {
+        super.onStart()
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null && user.isEmailVerified) {
+            showProgressDialog("Please wait ...")
+            FirestoreClass().getUserDetails(this)
         }
     }
 
@@ -142,7 +152,9 @@ class LogInActivity : BaseActivity()
             startActivity(intent)
         }
         else
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, DashboardActivity::class.java))
+
+        this.finish()
     }
 
 }

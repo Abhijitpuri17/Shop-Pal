@@ -1,4 +1,4 @@
-package com.example.shoppingapp.activities
+package com.example.shoppingapp.ui.activities
 
 import android.os.Bundle
 import android.os.Handler
@@ -16,16 +16,16 @@ class ForgotPasswordActivity : BaseActivity()
         setContentView(R.layout.activity_forgot_password)
 
         btn_submit_forgot_pass.setOnClickListener {
-            reset_password()
+            resetPassword()
         }
 
        setupActionBar()
     }
 
-    private fun reset_password()
+    private fun resetPassword()
     {
         if (et_email.text.toString().isEmpty()) {
-            showErrorSnackbar("Please enter you email address", true)
+            showErrorSnackBar("Please enter you email address", true)
         }
         else {
             showProgressDialog("Please wait...")
@@ -33,14 +33,14 @@ class ForgotPasswordActivity : BaseActivity()
                 hideProgressDialog()
                 if (it.isSuccessful)
                 {
-                    showErrorSnackbar("An email is sent to your email id to reset the password", false)
+                    showErrorSnackBar("An email is sent to your email id to reset the password", false)
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
                     }, 2500)
                 }
                 else
                 {
-                    showErrorSnackbar(it.exception!!.message.toString(), true)
+                    showErrorSnackBar(it.exception!!.message.toString(), true)
                 }
             }
         }

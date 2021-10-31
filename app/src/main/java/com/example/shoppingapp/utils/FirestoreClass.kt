@@ -3,18 +3,15 @@ package com.example.shoppingapp.utils
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
-import android.net.Uri
 import android.util.Log
 import android.widget.Toast
-import com.example.shoppingapp.activities.LogInActivity
-import com.example.shoppingapp.activities.MainActivity
-import com.example.shoppingapp.activities.SignUpActivity
-import com.example.shoppingapp.activities.UserProfile
+import com.example.shoppingapp.ui.activities.LogInActivity
+import com.example.shoppingapp.ui.activities.SignUpActivity
+import com.example.shoppingapp.ui.activities.UserProfile
 import com.example.shoppingapp.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import kotlinx.android.synthetic.main.activity_main.*
 
 class FirestoreClass {
 
@@ -52,7 +49,7 @@ class FirestoreClass {
         mFirestore.collection(Constants.USERS).
                 document(getCurrentUserID()).
                 get().
-                addOnSuccessListener {document->
+                addOnSuccessListener { document->
                     Log.i(activity.javaClass.simpleName, document.toString())
 
                    val user = document.toObject(User::class.java)!!

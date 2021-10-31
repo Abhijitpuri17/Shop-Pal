@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.LogInActivity">
+    tools:context=".ui.activities.LogInActivity">
 
     <FrameLayout
         android:id="@+id/fl_header_image"
@@ -18,22 +18,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@drawable/img_splash_background" />
+            android:src="@drawable/img_splash_background"
+            android:contentDescription="@string/header_image_background" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/shop_app_icon" />
+            android:src="@drawable/shop_app_icon"
+            android:contentDescription="@string/header_image_app_icon" />
     </FrameLayout>
 
-    <com.example.shoppingapp.utils.BoldTextView
+    <com.example.shoppingapp.utils.customViews.BoldTextView
         android:id="@+id/tv_login_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="LOGIN"
+        android:text="@string/login"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,12 +54,12 @@
         app:boxCornerRadiusBottomEnd="24dp"
         android:layout_margin="32dp"
         app:boxStrokeColor="@color/orange"
-        android:hint="Email"
+        android:hint="@string/email"
         app:expandedHintEnabled="false"
         app:hintTextColor="@color/hint_text_color"
         app:layout_constraintTop_toBottomOf="@+id/tv_login_text">
 
-        <com.example.shoppingapp.utils.MyEditText
+        <com.example.shoppingapp.utils.customViews.MyEditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -80,12 +82,12 @@
         app:boxCornerRadiusBottomEnd="24dp"
         android:layout_margin="32dp"
         app:boxStrokeColor="@color/orange"
-        android:hint="Password"
+        android:hint="@string/password"
         app:expandedHintEnabled="false"
         app:hintTextColor="@color/hint_text_color"
         app:layout_constraintTop_toBottomOf="@+id/text_input_box_first_name">
 
-        <com.example.shoppingapp.utils.MyEditText
+        <com.example.shoppingapp.utils.customViews.MyEditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -95,36 +97,38 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.example.shoppingapp.utils.BoldTextView
+    <com.example.shoppingapp.utils.customViews.BoldTextView
         android:id="@+id/tv_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
-        android:text="Forgot Password?"
-        android:textSize="20sp"
+        android:text="@string/forgot_password"
+        android:textSize="16sp"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_input_box_password" />
+        app:layout_constraintTop_toBottomOf="@+id/text_input_box_password"
+        android:focusable="true" />
 
-    <com.example.shoppingapp.utils.MyButton
+    <com.example.shoppingapp.utils.customViews.MyButton
         android:id="@+id/btn_log_in"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
         android:background="@drawable/button_background"
         android:padding="14dp"
-        android:text="LOG IN"
+        android:text="@string/log_in_btn_text"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_forgot_password" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_forgot_password"
+        android:focusable="true" />
 
     <LinearLayout
-        android:id="@+id/ll_dont_have_acc"
+        android:id="@+id/ll_don_t_have_acc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -135,20 +139,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_log_in">
 
-        <com.example.shoppingapp.utils.MyTextView
+        <com.example.shoppingapp.utils.customViews.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't have an account?" />
+            android:text="@string/don_t_have_an_account" />
 
-        <com.example.shoppingapp.utils.BoldTextView
+        <com.example.shoppingapp.utils.customViews.BoldTextView
             android:id="@+id/tv_go_to_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:layout_marginStart="16dp"
             android:foreground="?attr/selectableItemBackground"
-            android:text="SIGN UP"
-            android:textSize="20sp"/>
+            android:text="@string/sign_up"
+            android:textSize="20sp"
+            android:focusable="true" />
 
     </LinearLayout>
 

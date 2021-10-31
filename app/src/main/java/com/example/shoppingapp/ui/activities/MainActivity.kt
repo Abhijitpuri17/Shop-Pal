@@ -1,11 +1,10 @@
-package com.example.shoppingapp.activities
+package com.example.shoppingapp.ui.activities
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.shoppingapp.R
 import com.example.shoppingapp.utils.Constants
-import com.example.shoppingapp.utils.FirestoreClass
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity()
