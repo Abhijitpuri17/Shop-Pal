@@ -48,7 +48,7 @@ class SignUpActivity : BaseActivity()
         if (actionbar != null)
         {
             actionbar.setDisplayHomeAsUpEnabled(true)
-            actionbar.setHomeAsUpIndicator(R.drawable.ic_black_color_back_btn)
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_back_arrow_white)
             actionbar.setDisplayShowTitleEnabled(false)
         }
 

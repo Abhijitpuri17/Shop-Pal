@@ -9,6 +9,7 @@ import com.example.shoppingapp.ui.activities.LogInActivity
 import com.example.shoppingapp.ui.activities.SignUpActivity
 import com.example.shoppingapp.ui.activities.UserProfile
 import com.example.shoppingapp.models.User
+import com.example.shoppingapp.ui.activities.SettingsActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -65,11 +66,29 @@ class FirestoreClass {
 
                     editor.apply()
 
-                    if (activity is LogInActivity) {
-                        activity.logInSuccess(user)
+                    when (activity)
+                    {
+                        is LogInActivity -> {
+                            activity.logInSuccess(user)
+                        }
+
+                        is SettingsActivity->{
+                             activity.userDetailsSuccess(user)
+                        }
+                    }
+                }
+            .addOnFailureListener {
+                when(activity)
+                {
+                    is LogInActivity->{
+                        activity.hideProgressDialog()
                     }
 
+                    is SettingsActivity->{
+                        activity.hideProgressDialog()
+                    }
                 }
+            }
     }
 
     fun updateUserProfileData(activity: Activity, userHashMap : HashMap<String, Any>)

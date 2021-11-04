@@ -22,7 +22,7 @@ class UserProfile : BaseActivity()
 
     lateinit var mUserDetails : User
     lateinit var userImageUri : Uri
-    lateinit var userImageURL : String
+    private var userImageURL : String? = null
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -31,14 +31,30 @@ class UserProfile : BaseActivity()
         if (intent.hasExtra(Constants.EXTRA_USER_DETAILS)) {
             // get userDetails from intent as a parcelableExtra
             mUserDetails = intent.getParcelableExtra(Constants.EXTRA_USER_DETAILS)!!
+            if (mUserDetails.user_profile_image.isNotEmpty()){
+                userImageURL = mUserDetails.user_profile_image
+                GlideLoader(this).loadUserPicture(userImageURL!!, iv_user_image)
+            }
+
+            if (mUserDetails.mobile != 0L){
+                et_mobile_number.setText(mUserDetails.mobile.toString())
+                setUpActionBar()
+            }
+
+            if (mUserDetails.gender.isNotEmpty()) {
+                if (mUserDetails.gender == Constants.MALE)
+                    radio_btn_male.isChecked = true
+                else radio_btn_female.isChecked = true
+            }
+
+
+
         }
 
         // set first , last name and email previously added and make these editText disabled
         et_first_name.setText(mUserDetails.firstName)
         et_last_name.setText(mUserDetails.lastName)
         et_email.setText(mUserDetails.email)
-        et_first_name.isEnabled = false
-        et_last_name.isEnabled = false
         et_email.isEnabled = false
 
         // when user clicks on imageView
@@ -51,6 +67,20 @@ class UserProfile : BaseActivity()
             saveUserInfo()
         }
 
+    }
+
+    private fun setUpActionBar()
+    {
+        setSupportActionBar(toolbar_user_profile)
+        val actionBar = supportActionBar
+        if (actionBar != null)
+        {
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_back_arrow_white)
+        }
+        toolbar_user_profile.setNavigationOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun onUserImageClick()
@@ -84,9 +114,11 @@ class UserProfile : BaseActivity()
 
             userHashMap[Constants.MOBILE] = mobileNumber.toLong()
             userHashMap[Constants.GENDER] = gender
+            userHashMap[Constants.FIRST_NAME] = et_first_name.text.toString()
+            userHashMap[Constants.LAST_NAME] = et_last_name.text.toString()
             userHashMap[Constants.PROFILE_COMPLETED] = 1
-            if (userImageURL.isNotEmpty()) {
-                userHashMap[Constants.USER_IMAGE] = userImageURL
+            if (userImageURL != null && userImageURL!!.isNotEmpty()) {
+                userHashMap[Constants.USER_IMAGE] = userImageURL!!
             }
 
             showProgressDialog("Please wait ...")
@@ -115,7 +147,7 @@ class UserProfile : BaseActivity()
     fun userProfileUpdateSuccess()
     {
         hideProgressDialog()
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, DashboardActivity::class.java))
         this.finish()
     }
 

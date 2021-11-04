@@ -15,24 +15,53 @@
         <FrameLayout
             android:id="@+id/fl_settings_header_image"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/img_splash_background"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:contentDescription="@string/settings_header_image" />
 
-            <com.example.shoppingapp.utils.customViews.BoldTextView
-                android:id="@+id/tv_header_setting"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Settings"
-                android:textSize="24sp"
+                android:orientation="horizontal"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                >
+
+                <ImageView
+                    android:id="@+id/btn_back_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_back_arrow_white"
+                    android:contentDescription="@string/back_btn_settings_activity" />
+
+
+
+                <com.example.shoppingapp.utils.customViews.BoldTextView
+                    android:id="@+id/tv_header_setting"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings"
+                    android:textSize="30sp"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="48dp"
+                    android:gravity="center_horizontal"
+                   />
+
+
+            </LinearLayout>
+
+
         </FrameLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -48,17 +77,19 @@
 
 
         <com.example.shoppingapp.utils.customViews.BoldTextView
+            android:id="@+id/btn_edit_profile_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="44dp"
+            android:clickable="true"
+            android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
+            android:layout_marginTop="-130dp"
+            android:layout_marginEnd="16dp"
             android:padding="8dp"
-            android:text="Edit"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_user_image_settings"
+            android:text="@string/edit"
+            android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.358"
-            app:layout_constraintStart_toEndOf="@+id/iv_user_image_settings" />
+            app:layout_constraintTop_toBottomOf="@+id/fl_settings_header_image" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_user_name"
@@ -75,14 +106,15 @@
             app:boxCornerRadiusTopStart="16dp"
             app:boxCornerRadiusBottomStart="16dp"
             app:boxCornerRadiusTopEnd="16dp"
-            android:hint="name"
+            android:hint="@string/name"
             app:expandedHintEnabled="false">
 
             <com.example.shoppingapp.utils.customViews.MyEditText
+                android:id="@+id/et_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:text="Abhijit Puri"
+                android:text="@string/demo_name"
                 android:enabled="false"
                 />
 
@@ -103,14 +135,15 @@
             app:boxCornerRadiusTopStart="16dp"
             app:boxCornerRadiusBottomStart="16dp"
             app:boxCornerRadiusTopEnd="16dp"
-            android:hint="email"
+            android:hint="@string/email"
             app:expandedHintEnabled="false">
 
             <com.example.shoppingapp.utils.customViews.MyEditText
+                android:id="@+id/et_user_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:text="puriabhijit000@gmail.com"
+                android:text="@string/demo_email"
                 android:enabled="false"
                 />
 
@@ -131,14 +164,15 @@
             app:boxCornerRadiusTopStart="16dp"
             app:boxCornerRadiusBottomStart="16dp"
             app:boxCornerRadiusTopEnd="16dp"
-            android:hint="mobile"
+            android:hint="@string/mobile"
             app:expandedHintEnabled="false">
 
             <com.example.shoppingapp.utils.customViews.MyEditText
+                android:id="@+id/et_user_mobile_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="9623697793"
+                android:text="@string/demo_mobile_number"
                 android:enabled="false"
                 />
 
@@ -151,9 +185,10 @@
             app:layout_constraintTop_toBottomOf="@id/input_layout_mobile_number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:padding="4dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="8dp"
+            android:padding="1dp"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
@@ -163,7 +198,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Addresses"
+                android:text="@string/addresses"
                 android:textSize="24sp"
                 android:padding="16dp"
                 android:gravity="center"
@@ -175,25 +210,28 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_arrow_forward_ios_24"
                 android:backgroundTint="@color/white"
-                android:layout_margin="16dp"/>
+                android:layout_margin="16dp"
+                android:contentDescription="@string/address_image_button" />
 
 
         </LinearLayout>
 
 
         <com.example.shoppingapp.utils.customViews.MyButton
+            android:id="@+id/btn_logout_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            app:layout_constraintTop_toBottomOf="@id/ll_addresses"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="LOGOUT"
-            android:textSize="24sp"
+            android:background="@drawable/button_background"
+            android:padding="16dp"
+            android:text="@string/logout"
             android:textColor="@color/white"
-            android:padding="12dp"/>
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_addresses" />
 
 
 

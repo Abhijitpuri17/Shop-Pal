@@ -12,6 +12,8 @@ object Constants {
     const val GENDER : String = "gender"
     const val PROFILE_COMPLETED : String = "profileCompleted"
     const val USER_IMAGE : String = "user_profile_image"
+    const val FIRST_NAME : String = "firstName"
+    const val LAST_NAME : String = "lastName"
 
     /**
      * for Shared Preferences

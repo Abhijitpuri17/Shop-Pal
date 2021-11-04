@@ -25,10 +25,24 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="save_user_info_btn_text">SAVE</string>
-    <string name="please_wait">Please Wait ...</string>
+    <string name="please_wait">Please Wait …</string>
     <string name="title_activity_dashboard">MainActivity</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_products">Products</string>
     <string name="title_orders">Orders</string>
     <string name="action_settings">Settings</string>
+    <string name="settings">SETTINGS</string>
+    <string name="settings_header_image">settings_header_image</string>
+    <string name="edit">Edit</string>
+    <string name="name">name</string>
+    <string name="demo_name">Abhijit Puri</string>
+    <string name="demo_email">puriabhijit000@gmail.com</string>
+    <string name="demo_mobile_number">9623697793</string>
+    <string name="addresses">Addresses</string>
+    <string name="address_image_button">address_image_button</string>
+    <string name="logout">LOGOUT</string>
+    <string name="mobile">mobile</string>
+    <string name="back_btn_settings_activity">back_btn_settings_activity</string>
+    <string name="add_product">Add Product</string>
 </resources>
+
