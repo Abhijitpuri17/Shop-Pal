@@ -44,5 +44,7 @@
     <string name="mobile">mobile</string>
     <string name="back_btn_settings_activity">back_btn_settings_activity</string>
     <string name="add_product">Add Product</string>
+    <string name="back_button_add_product_activity">back button add product activity</string>
+    <string name="submit_add_product">SUBMIT</string>
 </resources>
 

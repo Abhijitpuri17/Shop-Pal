@@ -3,6 +3,7 @@ package com.example.shoppingapp.ui.activities
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.appcompat.widget.Toolbar
 import com.example.shoppingapp.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_forgot_password.*
