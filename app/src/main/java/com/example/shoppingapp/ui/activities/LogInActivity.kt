@@ -96,7 +96,6 @@ class LogInActivity : BaseActivity()
 
                     // if email is verified go to main activity
                     if (user!!.isEmailVerified) {
-                        showErrorSnackBar("Successfully logged in", false)
                         FirestoreClass().getUserDetails(this)
                     }
 
@@ -132,8 +131,16 @@ class LogInActivity : BaseActivity()
     override fun onStart() {
         super.onStart()
         val user = FirebaseAuth.getInstance().currentUser
+
+        /*
+        * If user is already logged in go to main/dashboard activity
+        */
         if (user != null && user.isEmailVerified) {
             showProgressDialog("Please wait ...")
+
+            /*
+             * getUserDetails method will call the logInSuccess method if everything goes right
+             */
             FirestoreClass().getUserDetails(this)
         }
     }
