@@ -4,18 +4,20 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.shoppingapp.R
+import com.example.shoppingapp.models.Product
 import com.example.shoppingapp.utils.Constants
+import com.example.shoppingapp.utils.FirestoreClass
 import com.example.shoppingapp.utils.GlideLoader
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_add_product.*
 import java.lang.Exception
-import java.net.URI
-import java.util.jar.Manifest
 
 class AddProductActivity : BaseActivity()
 {
@@ -40,10 +42,40 @@ class AddProductActivity : BaseActivity()
         }
     }
 
+
+
+
+
+    private fun saveProductImageToFirebaseStorage()
+    {
+        showProgressDialog("Please wait...")
+
+        val imgExtension = getFileExtension(this, mProductImageURI)
+
+        val ref = FirebaseStorage.getInstance().reference.child("${Constants.PRODUCT_IMAGE} ${System.currentTimeMillis()}.$imgExtension")
+
+        ref.putFile(mProductImageURI!!).addOnSuccessListener {
+
+            it.metadata!!.reference!!.downloadUrl.addOnSuccessListener { url ->
+                hideProgressDialog()
+                mProductImageURL = url!!.toString()
+            }
+        }
+    }
+
+
+
+
    private fun validateProductDetails() : Boolean
     {
 
         return when{
+
+            mProductImageURL == null -> {
+                showErrorSnackBar("Please select the product image", true)
+                false
+            }
+
             TextUtils.isEmpty(et_product_title.text.toString()) -> {
                 showErrorSnackBar("Please enter Product Title", true)
                 false
@@ -74,8 +106,31 @@ class AddProductActivity : BaseActivity()
     {
         if (validateProductDetails())
         {
-            showErrorSnackBar("Product added successfully", false)
+
+            showProgressDialog("Please wait")
+
+            val userName = this.getSharedPreferences(Constants.SHOP_PAL_PREFERENCES, MODE_PRIVATE)
+                .getString(Constants.LOGGED_IN_USERNAME, "")!!
+
+            val product = Product(FirestoreClass().getCurrentUserID(),
+                                    userName,
+                                    et_product_title.text.toString(),
+                                    et_product_price.text.toString(),
+                                    et_product_description.text.toString(),
+                                    et_product_quantity.text.toString(),
+                                    mProductImageURL!!
+                                )
+
+            FirestoreClass().uploadProductDetails(this, product)
+
         }
+    }
+
+    fun productUploadSuccess()
+    {
+        hideProgressDialog()
+        Toast.makeText(this, "Product uploaded successfully", Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     private fun chooseProductImage()
@@ -121,7 +176,11 @@ class AddProductActivity : BaseActivity()
                     try{
                         mProductImageURI = data.data!!
 
-                        GlideLoader(this).loadUserPicture(mProductImageURI!!, iv_product_image)
+                        saveProductImageToFirebaseStorage()
+
+                        iv_btn_choose_image_add_product.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.ic_edit_orange))
+
+                        GlideLoader(this).loadPicture(mProductImageURI!!, iv_product_image)
                     }
                     catch (e : Exception){
                         showErrorSnackBar("Something went wrong!", true)

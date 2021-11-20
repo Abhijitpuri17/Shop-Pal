@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
-import com.example.shoppingapp.ui.activities.LogInActivity
-import com.example.shoppingapp.ui.activities.SignUpActivity
-import com.example.shoppingapp.ui.activities.UserProfile
+import androidx.fragment.app.Fragment
+import com.example.shoppingapp.models.Product
 import com.example.shoppingapp.models.User
-import com.example.shoppingapp.ui.activities.SettingsActivity
+import com.example.shoppingapp.ui.activities.*
+import com.example.shoppingapp.ui.fragments.ProductsFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -18,6 +18,20 @@ class FirestoreClass {
 
     private val mFirestore = FirebaseFirestore.getInstance()
 
+
+    fun uploadProductDetails(activity: AddProductActivity, product : Product)
+    {
+        mFirestore.collection(Constants.PRODUCTS)
+            .document()
+            .set(product, SetOptions.merge())
+            .addOnSuccessListener {
+                activity.productUploadSuccess()
+            }
+            .addOnFailureListener {
+                activity.hideProgressDialog()
+                activity.showErrorSnackBar("Something went wrong while uploading product", true)
+            }
+    }
 
     fun registerUser(activity: SignUpActivity, user : User)
     {
@@ -33,9 +47,13 @@ class FirestoreClass {
                     Toast.makeText(activity.applicationContext, "Storing user information failed", Toast.LENGTH_SHORT).show()
                 }
             }
+            .addOnFailureListener {
+                activity.hideProgressDialog()
+                activity.showErrorSnackBar("Something went wrong", true)
+            }
     }
 
-    private fun getCurrentUserID() : String
+    fun getCurrentUserID() : String
     {
         val currentUser = FirebaseAuth.getInstance().currentUser
         var currentUserID = ""
@@ -69,6 +87,7 @@ class FirestoreClass {
                     when (activity)
                     {
                         is LogInActivity -> {
+                            activity.showErrorSnackBar("Success", false)
                             activity.logInSuccess(user)
                         }
 
@@ -81,6 +100,7 @@ class FirestoreClass {
                 when(activity)
                 {
                     is LogInActivity->{
+                        activity.showErrorSnackBar("failed", true)
                         activity.hideProgressDialog()
                     }
 
@@ -108,5 +128,43 @@ class FirestoreClass {
         }
     }
 
+    fun getProducts(fragment: Fragment)
+    {
+        mFirestore.collection(Constants.PRODUCTS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get()
+            .addOnSuccessListener {document->
+                Log.e("Product List", document.documents.toString())
+
+                val productsList : ArrayList<Product> = ArrayList()
+
+                for (doc in document.documents)
+                {
+                    val product = doc.toObject(Product::class.java)
+
+                    product!!.product_id = doc.id
+
+                    productsList.add(product)
+                }
+
+                when(fragment){
+                    is ProductsFragment->{
+                        fragment.getProductsSuccess(productsList)
+                    }
+                }
+
+            }
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+

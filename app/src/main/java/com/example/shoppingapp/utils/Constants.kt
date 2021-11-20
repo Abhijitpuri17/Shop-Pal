@@ -1,7 +1,11 @@
 package com.example.shoppingapp.utils
 
 object Constants {
+    /**
+     * Collections in fire-store
+     */
     const val USERS : String = "users"
+    const val PRODUCTS : String = "products"
 
     /**
      * Fields in user class
@@ -29,4 +33,14 @@ object Constants {
     const val PICK_IMAGE_REQUEST_CODE : Int = 2
 
     const val  SPLASH_SCREEN_TIME : Long = 4000
+
+
+
+    const val USER_PROFILE_IMAGE : String = "User_Profile_Image"
+    const val PRODUCT_IMAGE : String = "Product_Image"
+
+
+    const val USER_ID : String = "user_id"
+
+
 }

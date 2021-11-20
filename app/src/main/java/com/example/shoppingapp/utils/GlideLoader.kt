@@ -9,7 +9,7 @@ import java.io.IOException
 
 class GlideLoader(val context : Context) {
 
-    fun loadUserPicture(image : Any, imageView : CircleImageView)
+    fun loadPicture(image : Any, imageView : CircleImageView)
     {
         try{
             Glide.with(context).load(image).centerCrop().into(imageView)
@@ -19,7 +19,7 @@ class GlideLoader(val context : Context) {
         }
     }
 
-    fun loadUserPicture(image : Any, imageView : ImageView)
+    fun loadPicture(image : Any, imageView : ImageView)
     {
         try{
 

@@ -33,7 +33,7 @@ class UserProfile : BaseActivity()
             mUserDetails = intent.getParcelableExtra(Constants.EXTRA_USER_DETAILS)!!
             if (mUserDetails.user_profile_image.isNotEmpty()){
                 userImageURL = mUserDetails.user_profile_image
-                GlideLoader(this).loadUserPicture(userImageURL!!, iv_user_image)
+                GlideLoader(this).loadPicture(userImageURL!!, iv_user_image)
             }
 
             if (mUserDetails.mobile != 0L){
@@ -46,8 +46,6 @@ class UserProfile : BaseActivity()
                     radio_btn_male.isChecked = true
                 else radio_btn_female.isChecked = true
             }
-
-
 
         }
 
@@ -132,7 +130,7 @@ class UserProfile : BaseActivity()
         showProgressDialog("Please wait..")
         val imageExtension =   getFileExtension(this, userImageUri) //MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(userImageUri))
 
-        val ref = FirebaseStorage.getInstance().reference.child("Image " + System.currentTimeMillis() + "." + imageExtension)
+        val ref = FirebaseStorage.getInstance().reference.child(Constants.USER_PROFILE_IMAGE + System.currentTimeMillis() + "." + imageExtension)
 
         ref.putFile(userImageUri).addOnSuccessListener {
             it.metadata!!.reference!!.downloadUrl
@@ -194,7 +192,7 @@ class UserProfile : BaseActivity()
                         //iv_user_image.setImageURI(selectedImageFileUri)
                         userImageUri = selectedImageFileUri
                         saveUserImageInFirebaseStorage()
-                        GlideLoader(this).loadUserPicture(selectedImageFileUri, iv_user_image)
+                        GlideLoader(this).loadPicture(selectedImageFileUri, iv_user_image)
                     } catch (e : Exception) {
                         showErrorSnackBar(e.localizedMessage!!.toString(), true)
                     }

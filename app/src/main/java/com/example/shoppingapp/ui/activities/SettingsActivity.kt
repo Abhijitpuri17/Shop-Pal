@@ -2,7 +2,6 @@ package com.example.shoppingapp.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import com.example.shoppingapp.R
 import com.example.shoppingapp.models.User
 import com.example.shoppingapp.utils.Constants
@@ -62,7 +61,7 @@ class SettingsActivity : BaseActivity()
         userDetails = user
         hideProgressDialog()
         if (user.user_profile_image.isNotEmpty())
-        GlideLoader(this).loadUserPicture(user.user_profile_image, iv_user_image_settings)
+        GlideLoader(this).loadPicture(user.user_profile_image, iv_user_image_settings)
         et_user_name.setText("${user.firstName} ${user.lastName}")
         et_user_email.setText(user.email)
         et_user_mobile_number.setText("${user.mobile}")
