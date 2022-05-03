@@ -1,4 +1,4 @@
-package com.example.shoppingapp.ui.activities
+package com.example.shoppingapp.view.activities
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity

@@ -1,4 +1,4 @@
-package com.example.shoppingapp.ui.activities
+package com.example.shoppingapp.view.activities
 
 import android.os.Bundle
 import androidx.core.content.ContextCompat
@@ -8,7 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.shoppingapp.R
-import com.example.shoppingapp.databinding.ActivityDashboardBinding
+import kotlinx.android.synthetic.main.activity_dashboard.*
 
 class DashboardActivity : BaseActivity() {
 
@@ -17,13 +17,11 @@ class DashboardActivity : BaseActivity() {
 
         setContentView(R.layout.activity_dashboard)
 
-
         supportActionBar!!.setBackgroundDrawable(
             ContextCompat.getDrawable(
             this, R.drawable.gradient_color_background
             )
         )
-
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
@@ -37,6 +35,7 @@ class DashboardActivity : BaseActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
     }
 
 

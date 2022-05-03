@@ -1,4 +1,4 @@
-package com.example.shoppingapp.ui.activities
+package com.example.shoppingapp.view.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -44,7 +44,9 @@ class SignUpActivity : BaseActivity()
     private fun setupActionBar()
     {
         setSupportActionBar(toolbar_sign_up_activity)
+
         val actionbar = supportActionBar
+
         if (actionbar != null)
         {
             actionbar.setDisplayHomeAsUpEnabled(true)
@@ -69,7 +71,7 @@ class SignUpActivity : BaseActivity()
              * if first name field is empty
              */
              TextUtils.isEmpty(et_first_name.text.toString().trim{it <= ' '}) -> {
-                 showErrorSnackBar("Please enter first name", true)
+                 showSnackBar("Please enter first name", true)
                 return false
              }
 
@@ -77,7 +79,7 @@ class SignUpActivity : BaseActivity()
              * if last name field is empty
              */
             TextUtils.isEmpty(et_last_name.text.toString().trim{it <= ' '}) -> {
-                showErrorSnackBar("Please enter last name", true)
+                showSnackBar("Please enter last name", true)
                 return false
             }
 
@@ -85,7 +87,7 @@ class SignUpActivity : BaseActivity()
              * if email field is empty
              */
             TextUtils.isEmpty(et_email.text.toString().trim{it <= ' '}) -> {
-                showErrorSnackBar("Please enter your email address", true)
+                showSnackBar("Please enter your email address", true)
                return false
             }
 
@@ -93,7 +95,7 @@ class SignUpActivity : BaseActivity()
              * if password field is empty
              */
             TextUtils.isEmpty(et_password.text.toString().trim{it <= ' '}) -> {
-                showErrorSnackBar("Please enter password", true)
+                showSnackBar("Please enter password", true)
                return false
             }
 
@@ -101,7 +103,7 @@ class SignUpActivity : BaseActivity()
              * if confirm password field is empty
              */
             TextUtils.isEmpty(et_confirm_password.text.toString().trim{it <= ' '}) -> {
-                showErrorSnackBar("Please enter password in confirm password field", true)
+                showSnackBar("Please enter password in confirm password field", true)
                return false
             }
 
@@ -110,7 +112,7 @@ class SignUpActivity : BaseActivity()
              */
 
             et_password.text.toString() != et_confirm_password.text.toString() -> {
-                showErrorSnackBar("Passwords not matched", true)
+                showSnackBar("Passwords not matched", true)
                return false
             }
 
@@ -118,7 +120,7 @@ class SignUpActivity : BaseActivity()
              * if terms and conditions are not accepted
              */
             !checkbox_terms_and_conditions.isChecked -> {
-                showErrorSnackBar("Please accept the terms and conditions to continue", true)
+                showSnackBar("Please accept the terms and conditions to continue", true)
                return false
             }
 
@@ -166,7 +168,7 @@ class SignUpActivity : BaseActivity()
                                           .addOnCompleteListener { task ->
                                               hideProgressDialog()
                                               if (task.isSuccessful) {
-                                                  showErrorSnackBar(
+                                                  showSnackBar(
                                                       "Verification email has been sent to your email id. Please verify to continue",
                                                       false
                                                   )
@@ -185,7 +187,7 @@ class SignUpActivity : BaseActivity()
                                                   }, 3500)
                                               } else {
                                                   FirebaseAuth.getInstance().signOut()
-                                                  showErrorSnackBar(
+                                                  showSnackBar(
                                                       "Please enter a valid email id",
                                                       true
                                                   )
@@ -199,12 +201,11 @@ class SignUpActivity : BaseActivity()
                         else
                         {
                             hideProgressDialog()
-                            showErrorSnackBar(it.exception!!.message.toString(), true)
+                            showSnackBar(it.exception!!.message.toString(), true)
                         }
                     }
         }
     }
 
-
-
+    
 }

@@ -6,18 +6,20 @@ import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.shoppingapp.models.CartItem
 import com.example.shoppingapp.models.Product
 import com.example.shoppingapp.models.User
-import com.example.shoppingapp.ui.activities.*
-import com.example.shoppingapp.ui.fragments.ProductsFragment
+import com.example.shoppingapp.view.activities.*
+import com.example.shoppingapp.view.fragments.DashboardFragment
+import com.example.shoppingapp.view.fragments.ProductsFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.toObject
 
 class FirestoreClass {
 
     private val mFirestore = FirebaseFirestore.getInstance()
-
 
     fun uploadProductDetails(activity: AddProductActivity, product : Product)
     {
@@ -29,13 +31,14 @@ class FirestoreClass {
             }
             .addOnFailureListener {
                 activity.hideProgressDialog()
-                activity.showErrorSnackBar("Something went wrong while uploading product", true)
+                activity.showSnackBar("Something went wrong while uploading product", true)
             }
     }
 
     fun registerUser(activity: SignUpActivity, user : User)
     {
-        mFirestore.collection(Constants.USERS).document(user.id)
+        mFirestore.collection(Constants.USERS)
+            .document(user.id)
             .set(user, SetOptions.merge())
             .addOnCompleteListener {
                 if (it.isSuccessful)
@@ -49,7 +52,7 @@ class FirestoreClass {
             }
             .addOnFailureListener {
                 activity.hideProgressDialog()
-                activity.showErrorSnackBar("Something went wrong", true)
+                activity.showSnackBar("Something went wrong", true)
             }
     }
 
@@ -87,7 +90,7 @@ class FirestoreClass {
                     when (activity)
                     {
                         is LogInActivity -> {
-                            activity.showErrorSnackBar("Success", false)
+                            activity.showSnackBar("Success", false)
                             activity.logInSuccess(user)
                         }
 
@@ -100,7 +103,7 @@ class FirestoreClass {
                 when(activity)
                 {
                     is LogInActivity->{
-                        activity.showErrorSnackBar("failed", true)
+                        activity.showSnackBar("failed", true)
                         activity.hideProgressDialog()
                     }
 
@@ -114,21 +117,27 @@ class FirestoreClass {
     fun updateUserProfileData(activity: Activity, userHashMap : HashMap<String, Any>)
     {
         mFirestore.collection(Constants.USERS).
-            document(getCurrentUserID()).
-            update(userHashMap).addOnCompleteListener {
+            document(getCurrentUserID())
+            .update(userHashMap)
+            .addOnCompleteListener {
+
                 if (it.isSuccessful) {
+
                     if (activity is UserProfile) {
                         activity.userProfileUpdateSuccess()
                     }
+
                 } else {
+
                     if (activity is UserProfile) {
                         activity.hideProgressDialog()
                     }
+
                 }
         }
     }
 
-    fun getProducts(fragment: Fragment)
+    fun getProductsList(fragment: Fragment)
     {
         mFirestore.collection(Constants.PRODUCTS)
             .whereEqualTo(Constants.USER_ID, getCurrentUserID())
@@ -155,6 +164,141 @@ class FirestoreClass {
 
             }
     }
+
+    fun getProductDetails(activity: Activity, product_details_id: String){
+
+        mFirestore.collection(Constants.PRODUCTS)
+            .document(product_details_id)
+            .get()
+            .addOnSuccessListener {
+                val productDetails = it.toObject(Product::class.java)
+                if (activity is ProductDetailsActivity){
+                 activity.getProductDetailsSuccess(productDetails!!)
+                }
+            }
+            .addOnFailureListener {
+                if (activity is ProductDetailsActivity){
+                    activity.hideProgressDialog()
+                    Toast.makeText(activity.applicationContext, it.localizedMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+
+    fun getDashboardItems(fragment: DashboardFragment)
+    {
+        mFirestore.collection(Constants.PRODUCTS)
+            .get()
+            .addOnSuccessListener { documents ->
+
+                val productList = ArrayList<Product>()
+
+                for (doc in documents)
+                {
+                    val currProduct =  doc.toObject(Product::class.java)
+                    currProduct.product_id = doc.id
+                    productList.add(currProduct)
+                }
+
+                fragment.successDashboardItemsList(productList)
+
+            }
+            .addOnFailureListener {
+                fragment.hideProgressDialog()
+                Toast.makeText(fragment.requireContext(), "Failed", Toast.LENGTH_SHORT).show()
+            }
+
+    }
+
+
+    fun deleteProduct(fragment: ProductsFragment, productId: String)
+    {
+        mFirestore.collection(Constants.PRODUCTS)
+            .document(productId)
+            .delete()
+            .addOnSuccessListener {
+                fragment.onProductDeleteSuccess()
+            }
+            .addOnFailureListener {
+
+                fragment.hideProgressDialog()
+
+                Toast.makeText(fragment.requireContext(), it.localizedMessage, Toast.LENGTH_SHORT).show()
+
+            }
+    }
+
+
+    fun addCartItems(activity: Activity, cartItem: CartItem){
+        mFirestore.collection(Constants.CART_ITEMS)
+            .document()
+            .set(cartItem, SetOptions.merge())
+            .addOnSuccessListener {
+               if (activity is ProductDetailsActivity){
+                   activity.addToCartSuccess()
+               }
+            }
+            .addOnFailureListener {
+                if (activity is ProductDetailsActivity){
+                   activity.showSnackBar(it.message.toString(), true)
+                }
+            }
+    }
+
+    fun checkIfItemExistsInCart(activity: Activity, productID : String){
+        mFirestore.collection(Constants.CART_ITEMS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .whereEqualTo(Constants.PRODUCT_ID, productID)
+            .get()
+            .addOnSuccessListener {
+                if (it.documents.size > 0){
+                    if (activity is ProductDetailsActivity){
+                        activity.productExistsInCartSuccess()
+                    }
+                } else {
+                    if (activity is ProductDetailsActivity) {
+                        activity.hideProgressDialog()
+                    }
+                }
+            }
+            .addOnFailureListener {
+                if (activity is ProductDetailsActivity){
+                    activity.hideProgressDialog()
+                    Toast.makeText(activity.applicationContext, it.localizedMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    fun getCartList(activity: Activity)
+    {
+        mFirestore.collection(Constants.CART_ITEMS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get()
+            .addOnSuccessListener { document ->
+
+                Log.d("TAG", document.documents.toString())
+
+                val cartList = ArrayList<CartItem>()
+
+                for (doc in document.documents){
+                    val cartItem = doc.toObject(CartItem::class.java)!!
+                    cartItem.id = doc.id
+                    cartList.add(cartItem)
+                }
+                if (activity is CartListActivity){
+                    activity.successCartItemsList(cartList)
+                }
+
+            }.addOnFailureListener {
+                if (activity is CartListActivity){
+                    activity.hideProgressDialog()
+                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                }
+
+            }
+
+    }
+
 
 }
 

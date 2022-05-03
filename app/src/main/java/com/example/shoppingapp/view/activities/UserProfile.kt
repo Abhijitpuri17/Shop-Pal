@@ -1,4 +1,4 @@
-package com.example.shoppingapp.ui.activities
+package com.example.shoppingapp.view.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -128,13 +128,19 @@ class UserProfile : BaseActivity()
     private fun saveUserImageInFirebaseStorage()
     {
         showProgressDialog("Please wait..")
-        val imageExtension =   getFileExtension(this, userImageUri) //MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(userImageUri))
+        val imageExtension = getFileExtension(this, userImageUri) //MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(userImageUri))
 
-        val ref = FirebaseStorage.getInstance().reference.child(Constants.USER_PROFILE_IMAGE + System.currentTimeMillis() + "." + imageExtension)
+        val ref = FirebaseStorage.getInstance()
+            .reference.child(
+                Constants.USER_PROFILE_IMAGE +
+                    System.currentTimeMillis() + "." +
+                    imageExtension
+            )
 
-        ref.putFile(userImageUri).addOnSuccessListener {
+        ref.putFile(userImageUri)
+            .addOnSuccessListener {
             it.metadata!!.reference!!.downloadUrl
-                .addOnSuccessListener {url->
+                .addOnSuccessListener { url->
                     hideProgressDialog()
                     userImageURL = url!!.toString()
                 }
@@ -153,13 +159,11 @@ class UserProfile : BaseActivity()
     private fun validateDetails() : Boolean
     {
         if (TextUtils.isEmpty(et_mobile_number.text.toString())) {
-            showErrorSnackBar("Please Enter your Mobile Number", true)
+            showSnackBar("Please Enter your Mobile Number", true)
             return false
         }
         return true
     }
-
-
 
 
     override fun onRequestPermissionsResult(
@@ -172,11 +176,11 @@ class UserProfile : BaseActivity()
         if (requestCode == Constants.READ_STORAGE_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
-                showErrorSnackBar("Storage permission is granted", false)
+                showSnackBar("Storage permission is granted", false)
                 showImageChooser()
             }
             else {
-                showErrorSnackBar("Storage permission denied", true)
+                showSnackBar("Storage permission denied", true)
             }
         }
     }
@@ -194,7 +198,7 @@ class UserProfile : BaseActivity()
                         saveUserImageInFirebaseStorage()
                         GlideLoader(this).loadPicture(selectedImageFileUri, iv_user_image)
                     } catch (e : Exception) {
-                        showErrorSnackBar(e.localizedMessage!!.toString(), true)
+                        showSnackBar(e.localizedMessage!!.toString(), true)
                     }
                 }
             }

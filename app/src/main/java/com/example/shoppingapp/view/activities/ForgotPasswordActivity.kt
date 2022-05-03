@@ -1,9 +1,8 @@
-package com.example.shoppingapp.ui.activities
+package com.example.shoppingapp.view.activities
 
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.appcompat.widget.Toolbar
 import com.example.shoppingapp.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_forgot_password.*
@@ -26,7 +25,7 @@ class ForgotPasswordActivity : BaseActivity()
     private fun resetPassword()
     {
         if (et_email.text.toString().isEmpty()) {
-            showErrorSnackBar("Please enter you email address", true)
+            showSnackBar("Please enter you email address", true)
         }
         else {
             showProgressDialog("Please wait...")
@@ -34,14 +33,14 @@ class ForgotPasswordActivity : BaseActivity()
                 hideProgressDialog()
                 if (it.isSuccessful)
                 {
-                    showErrorSnackBar("An email is sent to your email id to reset the password", false)
+                    showSnackBar("An email is sent to your email id to reset the password", false)
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
                     }, 2500)
                 }
                 else
                 {
-                    showErrorSnackBar(it.exception!!.message.toString(), true)
+                    showSnackBar(it.exception!!.message.toString(), true)
                 }
             }
         }

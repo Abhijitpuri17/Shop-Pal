@@ -16,11 +16,10 @@
     <color name="grey">#808080</color>
 
     <color name="hint_text_color">#CECECE</color>
-    <color name="text_color">#301934</color>
+    <color name="text_color">#505050</color>
 
     <color name="color_snackbar_error">#F72400</color>
     <color name="color_snackbar_success">#8BC34A</color>
-
 
 
 </resources>

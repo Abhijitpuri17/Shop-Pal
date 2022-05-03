@@ -1,16 +1,15 @@
-package com.example.shoppingapp.ui.fragments
+package com.example.shoppingapp.view.fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppingapp.R
 import com.example.shoppingapp.adapters.ProductListAdapter
 import com.example.shoppingapp.models.Product
-import com.example.shoppingapp.ui.activities.AddProductActivity
+import com.example.shoppingapp.view.activities.AddProductActivity
 import com.example.shoppingapp.utils.FirestoreClass
 import kotlinx.android.synthetic.main.fragment_products.*
 
@@ -39,6 +38,9 @@ class ProductsFragment : BaseFragment() {
     }
 
 
+
+
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.add_product_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -61,10 +63,54 @@ class ProductsFragment : BaseFragment() {
     private fun getProductListFromFireStore()
     {
         showProgressDialog()
-        FirestoreClass().getProducts(this)
+        FirestoreClass().getProductsList(this)
     }
 
 
+    fun deleteProduct(productId: String)
+    {
+        showAlertDialogToDeleteProduct(productId)
+    }
+
+    private fun showAlertDialogToDeleteProduct(productId: String)
+    {
+        val alert = AlertDialog.Builder(requireActivity())
+
+        alert.setTitle("Delete")
+
+        alert.setMessage("Are you sure you want to delete the product?")
+
+        alert.setIcon(R.drawable.ic_vector_alert_dialog)
+
+        alert.setPositiveButton("Yes"){ dialogInterface , _->
+            dialogInterface.dismiss()
+
+            showProgressDialog("Please wait...")
+
+            FirestoreClass().deleteProduct(this, productId)
+        }
+
+        alert.setNegativeButton("No"){dialogInterface , _->
+            dialogInterface.dismiss()
+        }
+
+        val alertDialog = alert.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+
+    }
+
+
+    fun onProductDeleteSuccess(){
+        hideProgressDialog()
+        Toast.makeText(
+            requireContext(),
+            "Deleted Successfully!",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        getProductListFromFireStore()
+    }
 
     fun getProductsSuccess(productList: ArrayList<Product>)
     {
@@ -78,7 +124,7 @@ class ProductsFragment : BaseFragment() {
 
             rv_products_items.setHasFixedSize(true)
 
-            val adapterProductsList = ProductListAdapter(requireActivity(), productList)
+            val adapterProductsList = ProductListAdapter(requireActivity(), productList, this)
 
             rv_products_items.adapter = adapterProductsList
         }

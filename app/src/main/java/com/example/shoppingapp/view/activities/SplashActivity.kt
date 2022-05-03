@@ -1,4 +1,4 @@
-package com.example.shoppingapp.ui.activities
+package com.example.shoppingapp.view.activities
 
 import android.content.Intent
 import android.os.Bundle

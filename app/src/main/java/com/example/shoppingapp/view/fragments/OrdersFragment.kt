@@ -1,4 +1,4 @@
-package com.example.shoppingapp.ui.fragments
+package com.example.shoppingapp.view.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

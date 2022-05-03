@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.LogInActivity">
+    tools:context=".view.activities.LogInActivity">
 
     <FrameLayout
         android:id="@+id/fl_header_image"
@@ -64,7 +64,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textEmailAddress"
-            android:textColor="@color/text_color"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -92,7 +91,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword"
-            android:textColor="@color/text_color"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -156,7 +154,6 @@
             android:focusable="true" />
 
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

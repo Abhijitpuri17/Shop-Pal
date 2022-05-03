@@ -6,6 +6,7 @@ object Constants {
      */
     const val USERS : String = "users"
     const val PRODUCTS : String = "products"
+    const val CART_ITEMS : String = "cart_items"
 
     /**
      * Fields in user class
@@ -41,6 +42,12 @@ object Constants {
 
 
     const val USER_ID : String = "user_id"
+
+    const val PRODUCT_DETAILS_ID : String = "product_details_id"
+
+    const val PRODUCT_ID : String = "product_id"
+
+    const val DEFAULT_CART_QUANTITY : String = "1"
 
 
 }

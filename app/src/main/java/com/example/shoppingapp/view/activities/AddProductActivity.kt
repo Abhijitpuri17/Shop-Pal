@@ -1,4 +1,4 @@
-package com.example.shoppingapp.ui.activities
+package com.example.shoppingapp.view.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -44,8 +44,6 @@ class AddProductActivity : BaseActivity()
 
 
 
-
-
     private fun saveProductImageToFirebaseStorage()
     {
         showProgressDialog("Please wait...")
@@ -65,34 +63,33 @@ class AddProductActivity : BaseActivity()
 
 
 
-
    private fun validateProductDetails() : Boolean
     {
 
         return when{
 
             mProductImageURL == null -> {
-                showErrorSnackBar("Please select the product image", true)
+                showSnackBar("Please select the product image", true)
                 false
             }
 
             TextUtils.isEmpty(et_product_title.text.toString()) -> {
-                showErrorSnackBar("Please enter Product Title", true)
+                showSnackBar("Please enter Product Title", true)
                 false
             }
 
             TextUtils.isEmpty(et_product_description.text.toString()) ->{
-                showErrorSnackBar("Please enter Product Description", true)
+                showSnackBar("Please enter Product Description", true)
                 false
             }
 
             TextUtils.isEmpty(et_product_price.text.toString()) ->{
-                showErrorSnackBar("Please enter Product Price", true)
+                showSnackBar("Please enter Product Price", true)
                 false
             }
 
             TextUtils.isEmpty(et_product_description.text.toString()) ->{
-                showErrorSnackBar("Please enter Product Quantity", true)
+                showSnackBar("Please enter Product Quantity", true)
                 false
             }
 
@@ -155,11 +152,11 @@ class AddProductActivity : BaseActivity()
         {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
-                showErrorSnackBar("Storage Permission granted.", false)
+                showSnackBar("Storage Permission granted.", false)
                 showImageChooser()
             }
             else {
-                showErrorSnackBar("Storage Permission denied.", true)
+                showSnackBar("Storage Permission denied.", true)
             }
         }
     }
@@ -183,7 +180,7 @@ class AddProductActivity : BaseActivity()
                         GlideLoader(this).loadPicture(mProductImageURI!!, iv_product_image)
                     }
                     catch (e : Exception){
-                        showErrorSnackBar("Something went wrong!", true)
+                        showSnackBar("Something went wrong!", true)
                     }
                 }
             }

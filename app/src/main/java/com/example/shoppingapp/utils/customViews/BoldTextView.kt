@@ -11,8 +11,7 @@ class BoldTextView(context : Context, attributeSet: AttributeSet) : AppCompatTex
          applyFont()
     }
 
-    private fun applyFont()
-    {
+    private fun applyFont() {
         val boldTypeFace = Typeface.createFromAsset(context.assets, "Montserrat-Bold.ttf")
         typeface = boldTypeFace
     }

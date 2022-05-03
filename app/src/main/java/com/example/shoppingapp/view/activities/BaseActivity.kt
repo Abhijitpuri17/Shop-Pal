@@ -1,4 +1,4 @@
-package com.example.shoppingapp.ui.activities
+package com.example.shoppingapp.view.activities
 
 import android.app.Activity
 import android.app.Dialog
@@ -28,7 +28,7 @@ open class BaseActivity : AppCompatActivity()
     /**
      * Method to show snackBar in case of error or success
      */
-    fun showErrorSnackBar(message: String, errorMessage: Boolean)
+    fun showSnackBar(message: String, errorMessage: Boolean)
     {
         val snackBar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
 
@@ -97,7 +97,7 @@ open class BaseActivity : AppCompatActivity()
      */
     fun showImageChooser()
     {
-      val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
 
         startActivityForResult(galleryIntent, Constants.PICK_IMAGE_REQUEST_CODE)
     }

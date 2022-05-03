@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.AddProductActivity">
+    tools:context=".view.activities.AddProductActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -67,12 +67,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:src="#D3D3D3" />
+                    android:background="@drawable/item_grey_border_thick_background"/>
 
                 <ImageView
                     android:id="@+id/iv_btn_choose_image_add_product"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    app:tint="@color/orange"
                     android:layout_gravity="end|bottom"
                     android:src="@drawable/ic_vector_add_photo" />
 
@@ -103,7 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="text"
-                    android:textColor="@color/black" />
+                   />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="number"
-                    android:textColor="@color/black" />
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,7 +163,7 @@
                     android:gravity="start"
                     android:lines="3"
                     android:inputType="textMultiLine"
-                    android:textColor="@color/black" />
+            />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -190,7 +191,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="number"
-                    android:textColor="@color/black" />
+                 />
 
             </com.google.android.material.textfield.TextInputLayout>
 

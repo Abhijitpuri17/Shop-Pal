@@ -11,10 +11,13 @@ class GlideLoader(val context : Context) {
 
     fun loadPicture(image : Any, imageView : CircleImageView)
     {
-        try{
-            Glide.with(context).load(image).centerCrop().into(imageView)
+        try {
+            Glide.with(context)
+                .load(image)
+                .centerInside()
+                .into(imageView)
 
-        } catch (e: IOException){
+        } catch (e: IOException) {
               e.printStackTrace()
         }
     }
@@ -23,7 +26,10 @@ class GlideLoader(val context : Context) {
     {
         try{
 
-            Glide.with(context).load(image).centerCrop().into(imageView)
+            Glide.with(context)
+                .load(image)
+                .centerCrop()
+                .into(imageView)
 
         } catch (e: IOException){
             e.printStackTrace()

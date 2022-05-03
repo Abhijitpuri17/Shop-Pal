@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.ProductsFragment">
+    tools:context=".view.fragments.ProductsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_products_items"
@@ -16,13 +16,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     
-    <TextView
+    <com.example.shoppingapp.utils.customViews.BoldTextView
         android:id="@+id/tv_no_product_found"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/no_product_found"
         android:textSize="24sp"
-        android:textColor="@color/orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

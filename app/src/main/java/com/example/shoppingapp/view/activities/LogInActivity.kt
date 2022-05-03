@@ -1,4 +1,4 @@
-package com.example.shoppingapp.ui.activities
+package com.example.shoppingapp.view.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -54,12 +54,12 @@ class LogInActivity : BaseActivity()
     {
         return when {
             TextUtils.isEmpty(et_email.text.toString().trim{it <= ' '}) -> {
-                showErrorSnackBar("Please enter your email address", true)
+                showSnackBar("Please enter your email address", true)
                 false
             }
 
             TextUtils.isEmpty(et_password.text.toString().trim{it <= ' '}) -> {
-                showErrorSnackBar("Please enter your password to continue", true)
+                showSnackBar("Please enter your password to continue", true)
                 false
             }
 
@@ -85,38 +85,39 @@ class LogInActivity : BaseActivity()
             /**
              * Login with email and password using firebase
              */
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener {
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener {
 
                 /**
                  * If user logged in successfully
                  */
-                if (it.isSuccessful)
-                {
-                     val user = it.result!!.user
+                    if (it.isSuccessful)
+                    {
+                         val user = it.result!!.user
 
-                    // if email is verified go to main activity
-                    if (user!!.isEmailVerified) {
-                        FirestoreClass().getUserDetails(this)
-                    }
+                        // if email is verified go to main activity
+                        if (user!!.isEmailVerified) {
+                            FirestoreClass().getUserDetails(this)
+                        }
 
-                    // if user didn't verify email show error on screen
-                    else {
-                        hideProgressDialog()
-                        showErrorSnackBar(
-                            "Please verify your email id by visiting email sent to your id",
-                            true
-                        )
-                        if (FirebaseAuth.getInstance().currentUser != null)
-                        FirebaseAuth.getInstance().signOut()
+                        // if user didn't verify email show error on screen
+                        else {
+                            hideProgressDialog()
+                            showSnackBar(
+                                "Please verify your email id by visiting email sent to your id",
+                                true
+                            )
+                            if (FirebaseAuth.getInstance().currentUser != null)
+                            FirebaseAuth.getInstance().signOut()
+                        }
                     }
-                }
 
                 /**
                  * If some error occurred or something went wrong while logging in, show what went wrong in snackbar
                  */
                 else {
                     hideProgressDialog()
-                    showErrorSnackBar(it.exception!!.message.toString(), true)
+                    showSnackBar(it.exception!!.message.toString(), true)
                 }
             }
 

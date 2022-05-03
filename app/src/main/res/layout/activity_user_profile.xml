@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activities.UserProfile">
+    tools:context=".view.activities.UserProfile">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -87,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPersonName"
-            android:textColor="@color/black"/>
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,7 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPersonName"
-            android:textColor="@color/black"/>
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,7 +147,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textEmailAddress"
-            android:textColor="@color/grey"/>
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -177,7 +177,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="phone"
-            android:textColor="@color/text_color"/>
+           />
 
     </com.google.android.material.textfield.TextInputLayout>
 

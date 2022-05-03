@@ -1,4 +1,4 @@
-package com.example.shoppingapp.ui.fragments
+package com.example.shoppingapp.view.fragments
 
 import android.app.Dialog
 import android.os.Bundle
